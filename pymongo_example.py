@@ -40,6 +40,10 @@ import datetime
 
 r = requests.get(url='https://api.bcb.gov.br/dados/serie/bcdata.sgs.7384/dados?formato=json')
 
+
+# Visualizar os primeiros 5 documentos do arquivo
+r.json()[0:5]
+
 # Cria a conexao com o MongoDB
 con = MongoClient('localhost', 27017)
 
