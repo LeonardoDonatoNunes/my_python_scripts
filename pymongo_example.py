@@ -1,10 +1,10 @@
 # Para executar o python, primeiro executar as funções abaixo:
   
   # Executar no console do R
-
+    # install.packages('reticulate')
     # library(reticulate)
-    # use_virtualenv("r-reticulate")
-    # use_python("C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python38\\python.exe")
+    # use_virtualenv("RETICULATE_PYTHON")
+    # use_python("C:\\Users\\user\\AppData\\Local\\R-MINI~1\\envs\\R-RETI~1\\python.exe")
     
   # Para instalar bibliotecas python que não estão instaladas no ambiente virtual
   
@@ -46,33 +46,31 @@ con = MongoClient('localhost', 27017)
 # Lista os BD's 
 con.list_database_names()
 
-Deleta o BD 'vendas_automoveis' que será criado novamente no próximo bloco.
-
-
+# Deleta o BD 'vendas_automoveis' que será criado novamente no próximo bloco.
 con.drop_database('vendas_automoveis')
+con.list_database_names()
 
 
 # Cria o BD e a coleção para inserir os dados no BD
-
-
 novo_bd = con['vendas_automoveis']
 nova_colecao = novo_bd['vendas']
-
+con.list_database_names()
 
 # Conecta novamente o BD, a coleção vendas e insere os dados JSON coletados no BD.
-
-
 db = con['vendas_automoveis']
+
 # Carrega o bd
 vendas = db.vendas
 resultado = vendas.insert_many(r.json())
 
 
 # Busca os dados do BD e configura os campos de data como datetime e o de valor como número.
-
-
 df = pd.DataFrame(list(vendas.find()))
 df['data'] = pd.to_datetime(df['data'], dayfirst=True)
 df['valor'] = pd.to_numeric(df['valor'])
 
+# informações do data frame
 df.info()
+
+# Primeiras linhas do data frame
+df.head()
